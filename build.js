@@ -6,6 +6,13 @@
 const fs = require('fs');
 const path = require('path');
 const { SITE, SERVICES, PATHS, HOME_PATH, CITIES, NEARBY_TOWNS, STEPS, TRUST, PROMISE, TESTIMONIALS, DESIGN, BALLPARK, DESIGNER } = require('./src/data');
+// Custom-tile catalog (same file as buddytile's): [{ key, label, items: [{ sku, name, brand, color, material, size, finish, img }] }]
+const MATERIALS = fs.existsSync(path.join(__dirname, 'src/materials.json')) ? JSON.parse(fs.readFileSync(path.join(__dirname, 'src/materials.json'), 'utf8')) : [];
+const MAT_TOP = 20;
+const matCard = (m, hidden) => `<figure class="mat-card"${hidden ? ' hidden' : ''}>
+  <img src="/assets/img/materials/${m.img}" alt="${esc(m.name)}" loading="lazy" width="600" height="600" />
+  <figcaption><strong>${esc(m.name)}</strong><span>${esc([m.brand, m.size, m.color].filter(Boolean).join(' · '))}</span></figcaption>
+</figure>`;
 // Real jobs from two sources: the platform's portfolio feed (refresh with
 // `node scripts/fetch-projects.js`) plus the hand-curated galleries in
 // projects-manual.json. Platform jobs list first, they're local and dated.
@@ -993,7 +1000,17 @@ const designBody = `
   <div class="container wide">
     <h1>DESIGN YOUR <span class="hl">SHOWER</span></h1>
     <hr class="gold-bar" />
-    <p class="lead" style="max-width:760px;">Every Buddy Baths shower is built from four choices: the wall finish, the pattern etched into it, the glass, and the hardware finish. Pick what you like here, and we bring the real samples to your bathroom at the free design visit.</p>
+    <p class="lead" style="max-width:760px;">Two ways to a new shower: a one-day shower system, or custom tile set by hand. Pick one below, choose what you like, and we bring the real samples to your bathroom at the free design visit.</p>
+    <div class="design-switch" role="tablist" aria-label="Shower type">
+      <button type="button" role="tab" data-design-pane="oneday" aria-selected="true">One-day shower</button>
+      <button type="button" role="tab" data-design-pane="custom" aria-selected="false">Custom tile</button>
+    </div>
+  </div>
+</section>
+<div class="design-pane" data-pane="oneday">
+<section style="padding-top:0;">
+  <div class="container wide">
+    <p class="sub" style="max-width:760px;">Every one-day shower is built from four choices: the wall finish, the pattern etched into it, the glass, and the hardware finish.</p>
   </div>
 </section>
 <section class="alt">
@@ -1059,6 +1076,22 @@ const designBody = `
     <p style="color:var(--stone);font-size:13px;margin-top:18px;">Colors on screen are approximate; the free design visit brings real samples to your bathroom.</p>
   </div>
 </section>
+</div>
+<div class="design-pane" data-pane="custom" hidden>
+<section style="padding-top:8px;">
+  <div class="container wide">
+    <p class="sub" style="max-width:760px;">Hand-set tile, built from scratch: pick any tile below for your walls, floor, niche, and accents. Your estimator brings samples of the ones you like, and your written price includes the tile, the waterproofing, and the install.</p>
+    <p class="mat-jump">${MATERIALS.map((c) => `<a href="#${c.key}">${esc(c.label)}</a>`).join('')}</p>
+  </div>
+</section>
+${MATERIALS.map((c) => `<section class="sec mat-sec" id="${c.key}">
+  <div class="container wide">
+    <h2>${esc(c.label.toUpperCase())}</h2>
+    <div class="mat-grid">${c.items.map((m, i) => matCard(m, i >= MAT_TOP)).join('')}</div>
+    ${c.items.length > MAT_TOP ? `<p class="mat-more-row"><button type="button" class="btn ghost" data-mat-more>View ${c.items.length - MAT_TOP} more ${esc(c.label.toLowerCase())}</button></p>` : ''}
+  </div>
+</section>`).join('\n')}
+</div>
 ${leadForm('design-options')}`;
 
 // ---------- build ------------------------------------------------------------
