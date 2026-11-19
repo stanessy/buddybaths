@@ -448,7 +448,7 @@ ${P.split ? splitHero() : `<div class="home-hero v3 fence baths">
     <span>${ico('checkCircle', 22)} Family owned &amp; local</span>
     <span>${ico('checkCircle', 22)} Licensed &amp; insured</span>
     <span>${ico('checkCircle', 22)} One written price</span>
-    <span>${ico('checkCircle', 22)} Lifetime warranty</span>
+    <span>${ico('checkCircle', 22)} ${P.key === 'custom' ? 'Workmanship warranty' : 'Lifetime warranty'}</span>
   </div>
 </div>
 
@@ -748,8 +748,9 @@ const chooseSection = () => `
 
 const homeBody = siteBody(HOME_PATH);
 
-const HERO_CHIPS = `<div class="chips">
-        <span>Family owned</span><span>Licensed &amp; bonded</span><span>Lifetime warranty</span><span>Installed in as little as one day</span>
+// Lifetime warranty + one-day install are one-day-system claims; custom tile gets a workmanship warranty.
+const heroChips = (path) => `<div class="chips">
+        <span>Family owned</span><span>Licensed &amp; bonded</span>${path === 'custom' ? '<span>Workmanship warranty</span><span>One written price</span>' : '<span>Lifetime warranty</span><span>Installed in as little as one day</span>'}
       </div>`;
 
 const heroCard = (context) => `
@@ -774,7 +775,7 @@ const heroCard = (context) => `
       </form>
     </div>`;
 
-const pageHero = ({ h1, lead, photo, context }) => `
+const pageHero = ({ h1, lead, photo, context, path }) => `
 <div class="hero">
   <div class="bg" style="background-image:url('/assets/img/${photo}')"></div>
   <div class="scrim"></div>
@@ -783,7 +784,7 @@ const pageHero = ({ h1, lead, photo, context }) => `
       <h1>${h1}</h1>
       <hr class="gold-bar" />
       <p class="lead">${lead}</p>
-      ${HERO_CHIPS}
+      ${heroChips(path)}
     </div>
 ${heroCard(context)}
   </div>
@@ -796,6 +797,7 @@ ${pageHero({
   lead: esc(s.intro),
   photo: s.photo,
   context: `service:${s.slug}`,
+  path: s.path,
 })}
 <div class="container breadcrumbs crumbs-after-hero"><a href="/">Home</a> / <a href="${PATHS[s.path].url}">${PATHS[s.path].name}</a> / ${s.name}</div>
 <section style="padding-top:26px;">
@@ -846,6 +848,7 @@ ${pageHero({
   lead: esc(s.intro),
   photo: s.photo,
   context: `service:${s.slug}:${c.slug}`,
+  path: s.path,
 })}
 <div class="container breadcrumbs crumbs-after-hero"><a href="/">Home</a> / <a href="/services/${s.slug}/">${esc(s.name)}</a> / ${c.name}, ${c.state}</div>
 <section style="padding-top:26px;">

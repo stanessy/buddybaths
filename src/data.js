@@ -439,7 +439,7 @@ const PROMISE = [
   { short: 'We protect your home.', title: 'We protect your home like it\'s ours', body: 'Floor protection from the front door to the bathroom, dust contained to one room, and the old shower gone when we leave. One bathroom, one day, and the rest of the house untouched.' },
   { short: 'You\'ll always know what\'s next.', title: 'You\'ll never wonder what\'s happening', body: 'A written scope and install date before we take a deposit, a text the morning we arrive, and a walkthrough before we go. No chasing your contractor for updates. Ever.' },
   { short: 'Your price is your price.', title: 'Your budget is safe with us', body: 'One written price for the whole shower, base, walls, glass, and labor, before we start. It doesn\'t move unless you change the plan. No surprise invoices, no games.' },
-  { short: 'We\'re done when you smile.', title: 'We\'re not done until you smile', body: 'You run the water, swing the door, and sign off before the invoice comes. Then the lifetime warranty on the system and our workmanship warranty are both in your name.' },
+  { short: 'We\'re done when you smile.', title: 'We\'re not done until you smile', body: 'You run the water, swing the door, and sign off before the invoice comes. Then our workmanship warranty, plus any manufacturer warranty on your materials, is in your name.' },
 ];
 
 // Placeholders until real Google reviews come in, swap before launch.
@@ -453,7 +453,7 @@ const STEPS = [
   { short: 'Show us the bathroom', title: 'Request an estimate', body: 'Two minutes online or one phone call. Tell us about the shower or tub you have and the one you want.' },
   { short: 'Design it', title: 'In-home design visit', body: 'We measure your space, bring the color, pattern, and glass samples to your bathroom, and your written price lands in your inbox the same day.' },
   { short: 'We install it', title: 'Installed in as little as one day', body: 'Approve online in one tap. Your system is built to your measurements, and our certified crew removes the old shower and installs the new one, most projects in a single day.' },
-  { short: 'Enjoy it', title: 'Walkthrough and warranty', body: 'You run the water and swing the door before you sign off. The lifetime system warranty and our workmanship warranty are both in your name.' },
+  { short: 'Enjoy it', title: 'Walkthrough and warranty', body: 'You run the water and swing the door before you sign off. Our workmanship warranty, plus any manufacturer warranty on your materials, is in your name.' },
 ];
 
 const TRUST = [
